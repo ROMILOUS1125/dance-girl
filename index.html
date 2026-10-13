@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>美女跳舞</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+    background: #ffc0cb;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    font-family: sans-serif;
+}
+
+/* 视频容器 */
+.video-box {
+    position: relative;
+    width: 80vw;
+    max-width: 800px;
+    z-index: 1;
+}
+video {
+    width: 100%;
+    border-radius: 12px;
+    box-shadow: 0 8px 30px rgba(255, 105, 180, 0.4);
+    display: block;
+}
+
+/* 飘落特效层 */
+.fall-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 999;
+    overflow: hidden;
+}
+
+.fall-item {
+    position: absolute;
+    top: -50px;
+    font-size: 24px;
+    animation: fall linear forwards;
+    user-select: none;
+}
+
+.fall-mua {
+    color: #ff0000;
+    font-weight: bold;
+    font-size: 20px;
+}
+
+@keyframes fall {
+    0% {
+        transform: translateY(0) rotate(0deg);
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(110vh) rotate(360deg);
+        opacity: 0.7;
+    }
+}
+</style>
+</head>
+<body>
+
+<div class="video-box">
+    <!-- 下面src换成你自己的视频链接 -->
+    <video src="" controls autoplay loop muted></video>
+</div>
+
+<div class="fall-container" id="fallBox"></div>
+
+<script>
+const fallBox = document.getElementById('fallBox');
+const items = ['❤', '👄', 'mua'];
+
+function createFall() {
+    const el = document.createElement('div');
+    el.className = 'fall-item';
+    
+    const type = items[Math.floor(Math.random() * items.length)];
+    
+    if (type === 'mua') {
+        el.classList.add('fall-mua');
+        el.innerText = 'mua';
+    } else {
+        el.innerText = type;
+    }
+
+    // 随机位置、大小、速度
+    el.style.left = Math.random() * 100 + 'vw';
+    el.style.fontSize = (18 + Math.random() * 28) + 'px';
+    const duration = 3 + Math.random() * 5;
+    el.style.animationDuration = duration + 's';
+
+    fallBox.appendChild(el);
+
+    // 动画结束移除
+    setTimeout(() => {
+        el.remove();
+    }, duration * 1000);
+}
+
+// 持续生成
+setInterval(createFall, 180);
+</script>
+
+</body>
+</html>
